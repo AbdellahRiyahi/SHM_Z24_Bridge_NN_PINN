@@ -152,12 +152,12 @@ Expected outputs (file patterns may vary slightly by run/date):
 If you use this repository or build on the manuscript, please cite:
 
 ```bibtex
-@article{riyahi2026shm,
+@article{
   title   = {Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge},
-  author  = {Riyahi, Abdellah and Mestari, Mohammed and Bouihi, Bouchra},
+  author  = {Abdellah Riyahi, Mohammed Mestari, Bouchra Bouihi},
   journal = {Journal of the Civil Engineering Forum (JCEF)},
   year    = {2026},
-  note    = {Camera-ready}
+  doi    = {...}
 }
 ```
 
