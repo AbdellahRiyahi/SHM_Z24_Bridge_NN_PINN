@@ -9,7 +9,7 @@
 
 ---
 
-## TL;DR
+## Overview
 We compare **purely data‑driven NNs (NN V1–V3)** and a **hybrid Physics‑Informed Neural Network (PINN V1)** for vibration‑based SHM on the **Z24 Bridge** benchmark.  
 All models use the **same single accelerometer channel** (acc_09, near mid‑span) and a **frozen train/val/test split** to ensure a like‑for‑like comparison.
 
