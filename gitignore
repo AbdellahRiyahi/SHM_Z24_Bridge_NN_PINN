@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_convert*
+.DS_Store
+
+# Data & models (local only)
+DatasetPDT/
+models/
+outputs/
+outputs_pinn_v2_3/
+reviewer_pack/*.zip
+
+# Large artifacts
+*.h5
+*.keras
+*.npz
+*.npy
+*.pth
+*.pt
+
+# OS/IDE
+*.swp
+*.swo
+.vscode/
+.idea/
