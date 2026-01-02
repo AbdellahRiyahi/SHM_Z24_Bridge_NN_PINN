@@ -1,129 +1,150 @@
-# SHM_Z24_Bridge — Data‑Driven & Physics‑Informed NN (Z24)
+# Data-Driven and Physics-Informed Neural Networks for SHM of the Z24 Bridge — Companion Code
 
-> **Data‑Driven and Physics‑Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge**  
-> *Abdellah Riyahi, Mohammed Mestari, Bouchra Bouihi* — Journal of the Civil Engineering Forum (JCEF), 2026 (submission)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![Topic: SHM](https://img.shields.io/badge/Topic-Structural%20Health%20Monitoring-forestgreen.svg)
 
-<p align="left">
-  <a href="https://creativecommons.org/licenses/by/4.0/"><img alt="License: CC BY 4.0" src="https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg"></a>
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-informational">
-</p>
+> Companion repository for the paper  
+> **Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge (JCEF)**.
 
----
+This repository provides the notebooks and helper assets to reproduce the key figures and tables—training curves, confusion matrices, consolidated metrics, and physics diagnostics—for the comparison between **three data‑driven neural networks (NN V1–V3)** and a **Physics‑Informed Neural Network (PINN V1)** on the **Z24 Bridge** benchmark.
 
-## 🔎 Highlights
-
-- **Data‑driven baselines**: `NN_V1`, `NN_V2`, `NN_V3` (profondeur & régularisation croissantes).  
-- **Physics‑Informed model**: `PINN_V1` avec résidu d’un oscillateur **SDOF** amorti sur la trajectoire apprise.  
-- **Capteur unique**: *acc_09* (vertical, proche de la travée centrale) sélectionné via un criblage de fiabilité *(SNR > 20 dB, < 1 % de manquants en classe 01, pic PSD stable ±5 %)*.  
-- **Tâche**: classification multi‑états du pont **Z24** à partir d’accélérations ambiantes.  
-- **Métriques**: accuracy, macro‑F1, **macro ROC–AUC**, + **diagnostics physiques** (‖h‖ L2, P95(|h|), PSD, ω₀ vs. ω_est).
+> **Data notice** — The Z24 dataset is **not distributed** here. You must supply your own local copy and configure paths/manifest IDs in the notebooks. See **Data (not provided)** below.
 
 ---
 
-## 📁 Arborescence
+## Table of Contents
+
+- [Repository Layout](#repository-layout)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Data (not provided)](#data-not-provided)
+- [Reproducing the Paper’s Artifacts](#reproducing-the-papers-artifacts)
+- [Notes on Fairness & Reproducibility](#notes-on-fairness--reproducibility)
+- [License](#license)
+- [How to Cite](#how-to-cite)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
+
+---
+
+## Repository Layout
 
 ```
-.
-├─ NN_V1.ipynb                      # Baseline V1
-├─ NN_V2.ipynb                      # Baseline V2 (plus profond + régularisation)
-├─ NN_V3.ipynb                      # Baseline V3 (optimisé)
-├─ PINN_V1.ipynb                    # Physics‑Informed (résidu SDOF)
-├─ Comparisons_NNv1_NNv2_NNv3.ipynb # Figures comparatives (courbes, matrices, ROC…)
-├─ reviewer_build_artifacts.ipynb   # Construit Table 4/5/6 + zip des artefacts reviewers
-├─ models/                          # poids & checkpoints              (gitignored)
-├─ outputs/                         # figures/métriques NN             (gitignored)
-├─ outputs_pinn_v2_3/               # artefacts PINN (diag, PSD…)      (gitignored)
-├─ reviewer_pack/                   # CSV/JSON utilisés dans l’article
-├─ figs/                            # figures exportées (optionnel)
-└─ README.md • LICENSE • .gitignore
+spinn_project/
+├─ NN_V1.ipynb
+├─ NN_V2.ipynb
+├─ NN_V3.ipynb
+├─ PINN_V1.ipynb
+├─ Comparisons_NNv1_NNv2_NNv3.ipynb
+├─ reviewer_build_artifacts.ipynb
+├─ outputs/                 # figures/tables/metrics exported by notebooks
+├─ reviewer_pack/           # consolidated CSV/JSON for tables & review artifacts
+├─ figs/                    # (optional) additional figures
+├─ models/                  # (optional) saved model weights
+└─ outputs_pinn_v2_3/       # PINN diagnostics (npz/json) if produced
 ```
-> `models/`, `outputs*/`, `*.npz`, `*.h5`, `*.keras` sont **ignorés** pour garder le dépôt léger.
+
+**Notebooks overview**
+- **`NN_V1.ipynb`, `NN_V2.ipynb`, `NN_V3.ipynb`** — Train & evaluate each NN variant; export metrics, confusion matrices, and training histories.  
+- **`PINN_V1.ipynb`** — Train & evaluate the physics‑informed model; export physics diagnostics (‖h‖₂, P95(|h|), ω₀, ω_est).  
+- **`Comparisons_NNv1_NNv2_NNv3.ipynb`** — Generate side‑by‑side plots (train/val curves) and confusion matrices.  
+- **`reviewer_build_artifacts.ipynb`** — Consolidate per‑model outputs into camera‑ready **Table 4/5/6** (CSV + Markdown) and pack a ZIP for submission.
 
 ---
 
-## 🗂️ Données (non redistribuées)
-
-Le dépôt **ne contient pas** les `.mat` du Z24 EMS. Indiquer le chemin local :
-
-```bash
-# Linux/macOS
-export Z24_DATASET_ROOT="/path/to/DatasetPDT"
-# Windows (PowerShell)
-setx Z24_DATASET_ROOT "C:\path\to\DatasetPDT"
-```
-
-**Schéma attendu** (exemple) :
-
-```
-DatasetPDT/
-  01/avt/01setup01.mat ... 01setup09.mat
-  03/avt/03setup02.mat ...
-  ...
-  17/avt/17setupXX.mat
-```
-
-**Prétraitements (communs aux modèles)** : z‑score (fit sur *train*), fenêtres fixes **N = 65 536**, splits **70/15/15** (seeds gelés), encodage des labels figé.
-
----
-
-## ▶️ Reproduire les résultats
-
-1. **Baselines NN** : exécuter `NN_V1.ipynb`, `NN_V2.ipynb`, `NN_V3.ipynb`.  
-   *Sorties* → `outputs/` : courbes train/val, matrices de confusion, ROC‑AUC.
-2. **PINN** : exécuter `PINN_V1.ipynb`.  
-   *Sorties* → `outputs_pinn_v2_3/` : ‖h‖ L2 & P95(|h|), PSD(u,h), fréquences ω₀/ω_est.
-3. **Comparaisons & tables** : `Comparisons_NNv1_NNv2_NNv3.ipynb` (figures globales) puis  
-   `reviewer_build_artifacts.ipynb` (génère **Table 4/5/6** + zip *reviewer_pack*).
-
----
-
-## 📊 Résultats (papier)
-
-| Model   | Val. Acc. | Test Acc. | Test Loss | Macro ROC–AUC | Notes |
-|---------|-----------:|----------:|----------:|---------------:|-------|
-| NN V1   | 97.71%     | 98.62%    | 0.35      | 0.991          | data‑driven |
-| NN V2   | 97.25%     | 97.71%    | 0.28      | 0.998          | data‑driven |
-| NN V3   | **97.71%** | **99.54%**| **0.22**  | **1.000**      | meilleur classement global |
-| PINN V1 | —          | ~92%      | ~0.25     | ~0.95          | **‖h‖₂ ≈ 1.205×10⁻³**, **P95(|h|) ≈ 6.66×10⁻²**, **ω₀ ≈ 25.13 rad/s**, **ω_est ≈ 43.18 rad/s** |
-
-> **Lecture** : NN V3 domine en **data‑rich** ; **PINN V1** privilégie robustesse & interprétabilité (résidu bas, signature spectrale cohérente < 10 Hz).
-
----
-
-## 🧰 Environnement
+## Requirements
 
 - Python **3.10+**
-- NumPy • SciPy • scikit‑learn • Matplotlib
-- TensorFlow/Keras **2.13+**
+- Recommended stack:
+  - `tensorflow` / `keras`
+  - `numpy`, `scipy`, `pandas`, `scikit-learn`
+  - `matplotlib`
+- GPU is optional but recommended for faster training
 
-> Installez via `pip install -r requirements.txt` *(si fourni)* ou créez un environnement conda équivalent.
-
----
-
-## 📜 Licence
-
-Ce dépôt est diffusé sous **Creative Commons Attribution 4.0 International (CC BY 4.0)**.  
-Vous pouvez partager/remixer en **citant** les auteurs et la source.  
-Voir `LICENSE` pour les détails.
+> If you do not use a `requirements.txt`, install the packages above with `pip`.
 
 ---
 
-## ✍️ Citer
+## Quick Start
 
-Si vous utilisez ce dépôt, merci de citer l’article JCEF et ce dépôt :
-
-```bibtex
-@article{Riyahi2026_JCEF_Z24_NN_PINN,
-  author  = {Riyahi, Abdellah and Mestari, Mohammed and Bouihi, Bouchra},
-  title   = {Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge},
-  journal = {Journal of the Civil Engineering Forum},
-  year    = {2026}
-}
-```
+1. **Clone** this repository and create a clean Python environment.  
+2. **Configure your Z24 data** (dataset root or EMS manifest) in the first cell(s) of each notebook.  
+3. **Run the NNs**: open `NN_V1.ipynb`, `NN_V2.ipynb`, `NN_V3.ipynb` and run all cells.  
+   - Each notebook writes metrics & figures to `outputs/` and `reviewer_pack/`.  
+4. **Run the PINN**: open `PINN_V1.ipynb` and run all cells.  
+   - Physics diagnostics (‖h‖₂, P95(|h|), ω₀, ω_est) are exported to `outputs/` and (optionally) `outputs_pinn_v2_3/`.  
+5. **Build camera‑ready tables/figures**: open `reviewer_build_artifacts.ipynb` and run all cells.  
+   - It consolidates **Table 4/5/6** (CSV + Markdown) and can produce a ZIP in `outputs/`.
 
 ---
 
-## 🙏 Remerciements
+## Data (not provided)
 
-Z24 EMS: KU Leuven – Structural Mechanics (SIMCES).  
-Ressources de calcul: **HPC‑MARWAN (CNRST, Maroc)**.
+- This repository **does not** include the Z24 dataset.  
+- Use your local copy and configure:
+  - **Dataset root** (e.g., `/path/to/Z24/`) **or** your **EMS manifest ID/path**.
+  - A **common train/val/test split** shared across NN V1–V3 and PINN V1 (fair comparison).
+- The build notebook includes helper cells to **echo the active EMS manifest ID** for traceability.
+
+> **Sensor note** — Experiments use a single vertical accelerometer (**acc_09**, near mid‑span) chosen via a quantitative reliability screen (<1% missing samples on class 01, PSD peak stability ±5% on class 01, SNR > 20 dB). The same channel is used across all models.
+
+---
+
+## Reproducing the Paper’s Artifacts
+
+- **Figures 3–5** — Training vs. validation curves  
+  Run the NN notebooks (to export histories), then run `Comparisons_NNv1_NNv2_NNv3.ipynb` to generate overlaid plots with two‑column readability (larger fonts/line widths; distinct train/val colors).
+
+- **Table 4** — Validation metrics (NN) & physics diagnostics (PINN)  
+  After executing the NN and PINN notebooks, run `reviewer_build_artifacts.ipynb` to export a consolidated CSV/MD table.
+
+- **Table 5** — Test‑set summary (loss, accuracy, macro AUC)  
+  Produced by the same build notebook from the saved predictions/metrics in `outputs/`.
+
+- **Table 6** — Comparative summary vs. literature baselines  
+  Built from the consolidated metrics and curated baseline references (no external code claims of superiority).
+
+All generated files are written under `outputs/` and `reviewer_pack/`.
+
+---
+
+## Notes on Fairness & Reproducibility
+
+- **Unified preprocessing**: fixed window length & hop; `z`‑score normalization **fitted on training only**; frozen label encoding.  
+- **Constant splits**: identical train/val/test indices across NN V1–V3 and PINN V1.  
+- **Seeds**: set where relevant (subject to typical DL nondeterminism).  
+- **No dataset shipping**: provide your own Z24 copy and keep a record of your **EMS manifest ID** / dataset version.
+
+---
+
+## License
+
+This work is released under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.  
+You are free to share and adapt the material for any purpose, even commercially, as long as appropriate credit is given.
+
+- Human‑readable summary: https://creativecommons.org/licenses/by/4.0/  
+- Legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+---
+
+## How to Cite
+
+If you use this code, please cite the paper and optionally this repository.
+
+> Riyahi, A., Mestari, M., & Bouihi, B. (2026).  
+> *Data‑Driven and Physics‑Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge.*  
+> Journal of the Civil Engineering Forum (JCEF).
+
+---
+
+## Acknowledgments
+
+We thank the Z24 community for maintaining this benchmark and the JCEF reviewers/editors for feedback that improved clarity and robustness.
+
+---
+
+## Contact
+
+**Abdellah Riyahi** — Project maintainer  
+For questions or collaborations, please open an issue or reach out directly.
