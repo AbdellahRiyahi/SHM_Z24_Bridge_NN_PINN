@@ -157,7 +157,7 @@ If you use this repository or build on the manuscript, please cite:
   author  = {Abdellah Riyahi, Mohammed Mestari, Bouchra Bouihi},
   journal = {Journal of the Civil Engineering Forum (JCEF)},
   year    = {2026},
-  doi    = {...}
+  doi     = {...}
 }
 ```
 
