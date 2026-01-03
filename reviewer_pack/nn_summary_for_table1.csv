@@ -1,0 +1,4 @@
+Model,Val_Accuracy_(%),Macro_F1_(%),ROC_AUC_macro,False_Negatives,Notes
+NN V1,98.62,98.6,,0,data-driven
+NN V2,97.71,97.7,,0,data-driven
+NN V3,99.54,99.5,,0,data-driven

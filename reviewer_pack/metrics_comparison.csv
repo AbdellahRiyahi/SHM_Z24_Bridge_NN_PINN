@@ -1,0 +1,4 @@
+model,accuracy,macro_precision,macro_recall,macro_f1,macro_auc
+NN_V1,0.9862,0.9842,0.9883,0.986,
+NN_V2,0.9771,0.9762,0.979,0.977,
+NN_V3,0.9954,0.9947,0.9955,0.995,

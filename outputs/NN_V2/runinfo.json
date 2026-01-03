@@ -1,0 +1,8 @@
+{
+  "run_name": "NN_V2",
+  "timestamp": "2025-11-13 15:28:03",
+  "n_epochs": 200,
+  "best_val_acc": 1.0,
+  "best_val_loss": 0.4893385171890259,
+  "auc_macro": 0.9980762960367671
+}

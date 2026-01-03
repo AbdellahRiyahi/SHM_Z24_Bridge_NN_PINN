@@ -1,0 +1,26 @@
+[
+  {
+    "Model":"NN V1",
+    "Val_Accuracy_(%)":98.62,
+    "Macro_F1_(%)":98.6,
+    "ROC_AUC_macro":null,
+    "False_Negatives":0,
+    "Notes":"data-driven"
+  },
+  {
+    "Model":"NN V2",
+    "Val_Accuracy_(%)":97.71,
+    "Macro_F1_(%)":97.7,
+    "ROC_AUC_macro":null,
+    "False_Negatives":0,
+    "Notes":"data-driven"
+  },
+  {
+    "Model":"NN V3",
+    "Val_Accuracy_(%)":99.54,
+    "Macro_F1_(%)":99.5,
+    "ROC_AUC_macro":null,
+    "False_Negatives":0,
+    "Notes":"data-driven"
+  }
+]
