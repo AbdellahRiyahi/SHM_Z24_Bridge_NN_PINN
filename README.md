@@ -5,7 +5,7 @@
 ![Framework: TensorFlow](https://img.shields.io/badge/Framework-TensorFlow%202.13-orange.svg)
 
 Companion repository for the manuscript: **“Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge”**  
-**Abdellah Riyahi**, Mohammed Mestari, Bouchra Bouihi — *Journal of the Civil Engineering Forum (JCEF), camera‑ready stage*.
+**Abdellah Riyahi**, Mohammed Mestari, Bouchra Bouihi — *Journal of the Civil Engineering Forum (JCEF), https://journal.ugm.ac.id/v3/JCEF/article/view/24173*.
 
 ---
 
