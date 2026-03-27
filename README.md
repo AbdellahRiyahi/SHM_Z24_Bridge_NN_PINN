@@ -155,9 +155,9 @@ If you use this repository or build on the manuscript, please cite:
 @article{
   title   = {Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge},
   author  = {Abdellah Riyahi, Mohammed Mestari, Bouchra Bouihi},
-  journal = {Journal of the Civil Engineering Forum (JCEF)},
+  journal = {Journal of the Civil Engineering Forum (JCEF)} https://journal.ugm.ac.id/v3/JCEF/article/view/24173,
   year    = {2026},
-  doi     = {...}
+  doi     = {0.22146/jcef.24173}
 }
 ```
 
