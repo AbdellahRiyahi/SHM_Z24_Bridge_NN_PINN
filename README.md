@@ -7,6 +7,7 @@
 
 Companion repository for the manuscript: **“Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge”**  
 **Abdellah Riyahi**, Mohammed Mestari, Bouchra Bouihi — *Journal of the Civil Engineering Forum (JCEF), https://journal.ugm.ac.id/v3/JCEF/article/view/24173*.
+This repository is archived on Zenodo under DOI: [10.5281/zenodo.19701402](https://doi.org/10.5281/zenodo.19701402).
 
 ---
 
@@ -159,6 +160,7 @@ If you use this repository or build on the manuscript, please cite:
   journal = {Journal of the Civil Engineering Forum (JCEF)} https://journal.ugm.ac.id/v3/JCEF/article/view/24173,
   year    = {2026},
   doi     = {0.22146/jcef.24173}
+  This repository is archived on Zenodo =  https://doi.org/10.5281/zenodo.19701402
 }
 ```
 
