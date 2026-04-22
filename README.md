@@ -3,10 +3,10 @@
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Framework: TensorFlow](https://img.shields.io/badge/Framework-TensorFlow%202.13-orange.svg)
+![![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19701402.svg)](https://doi.org/10.5281/zenodo.19701402)
 
 Companion repository for the manuscript: **“Data-Driven and Physics-Informed Neural Networks for Structural Health Monitoring of the Z24 Bridge”**  
 **Abdellah Riyahi**, Mohammed Mestari, Bouchra Bouihi — *Journal of the Civil Engineering Forum (JCEF), https://journal.ugm.ac.id/v3/JCEF/article/view/24173*.
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19701402.svg)](https://doi.org/10.5281/zenodo.19701402)
 
 ---
 
